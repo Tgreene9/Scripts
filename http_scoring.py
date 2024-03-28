@@ -4,7 +4,13 @@ import requests
 
 
 class Result:
+    def __init__(self):
+        self.status = "unknown"
+        self.feedback = ""
+
     def fail(self, feedback, details=None, staff_details=None):
+        self.status = "fail"
+        self.feedback = feedback
         print(f"FAIL: {feedback}")
         if details:
             print(f"Details: {details}")
@@ -12,6 +18,8 @@ class Result:
             print(f"Staff Details: {staff_details}")
 
     def success(self, feedback, details=None, staff_details=None):
+        self.status = "success"
+        self.feedback = feedback
         print(f"SUCCESS: {feedback}")
         if details:
             print(f"Details: {details}")
@@ -39,22 +47,20 @@ class BasicHTTPCheck:
         try:
             response = requests.get(url, timeout=self.timeout)
             staff_details['status_code'] = str(response.status_code)
+            if response.status_code == 200:
+                self.result.success(feedback="HTTP Accessible", details=details, staff_details=staff_details)
+            else:
+                self.result.fail(feedback="HTTP Accessible but unexpected status code", details=details, staff_details=staff_details)
         except requests.exceptions.ConnectionError as e:
             self.result.fail(
                 feedback="Failed to connect to server, is port 80 open?",
-                details=details,
-                staff_details={
+                details=details,                staff_details={
                     'raw': str(e)
                 }
             )
         except Exception as e:
             details['raw'] = str(e)
             self.result.fail(feedback="HTTP not found", details=details)
-        else:
-            if response.status_code == 200:
-                self.result.success(feedback="HTTP Accessible", details=details, staff_details=staff_details)
-            else:
-                self.result.fail(feedback="HTTP Accessible but unexpected status code", details=details, staff_details=staff_details)
         finally:
             if response:
                 response.close()
