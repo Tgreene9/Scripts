@@ -68,17 +68,27 @@ class PostgreSQLCheck:
 
 
 class Result:
+    def __init__(self):
+        self.status = "unknown"
+        self.feedback = ""
+
     def fail(self, feedback, details=None):
+        self.status = "fail"
+        self.feedback = feedback
         print(f"FAIL: {feedback}")
         if details:
             print(f"Details: {details}")
 
     def warn(self, feedback, details=None):
+        self.status = "warn"
+        self.feedback = feedback
         print(f"WARN: {feedback}")
         if details:
             print(f"Details: {details}")
 
     def success(self, feedback):
+        self.status = "success"
+        self.feedback = feedback
         print(f"SUCCESS: {feedback}")
 
 
