@@ -5,7 +5,7 @@ sudo apt update
 sudo apt install -y python3 python3-pip libpq-dev git
 
 # Clone the repository
-git clone <repository-url> /tmp/music_shop
+git clone https://gitlab.com/c2-games/red-team/web-apps/the-music-store /tmp/music_shop
 cd /tmp/music_shop
 
 # Create a directory for the web application
