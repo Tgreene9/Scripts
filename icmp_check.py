@@ -53,16 +53,28 @@ class ICMPCheck:
 
 
 class Result:
-    def fail(self, feedback, staff_details):
-        print(f'FAIL: {feedback}')
-        print(f'Staff Details: {staff_details}')
+    def __init__(self):
+        self.status = "unknown"
+        self.feedback = ""
 
-    def error(self, feedback, staff_details):
-        print(f'ERROR: {feedback}')
-        print(f'Staff Details: {staff_details}')
+    def fail(self, feedback, details=None):
+        self.status = "fail"
+        self.feedback = feedback
+        print(f"FAIL: {feedback}")
+        if details:
+            print(f"Details: {details}")
+
+    def warn(self, feedback, details=None):
+        self.status = "warn"
+        self.feedback = feedback
+        print(f"WARN: {feedback}")
+        if details:
+            print(f"Details: {details}")
 
     def success(self, feedback):
-        print(f'SUCCESS: {feedback}')
+        self.status = "success"
+        self.feedback = feedback
+        print(f"SUCCESS: {feedback}")
 
 
 if __name__ == '__main__':
