@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scoring Dashboard</title>
+    <style>
+        .green { background-color: green; }
+        .yellow { background-color: yellow; }
+        .red { background-color: red; }
+    </style>
+</head>
+<body>
+    <h1>Scoring Dashboard</h1>
+    <table>
+        <tr>
+            <th>Service</th>
+            <th>Status</th>
+            <th>Feedback</th>
+        </tr>
+        {% for service, result in scoring_results.items() %}
+        <tr>
+            <td>{{ service }}</td>
+            <td class="{{ result.status }}">{{ result.status }}</td>
+            <td>{{ result.feedback }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
